@@ -1,0 +1,58 @@
+<HTML>
+<HEAD><TITLE>方便付-請求EMail快速付款連結</TITLE><HEAD>
+<BODY>
+<CENTER>
+<FORM NAME="B2C_EasyPayCreate" ACTION="B2C_EasyPayCreate.jsp"
+      METHOD="POST" Enctype>
+<H1>方便付-請求EMail快速付款連結</H1><BR>
+<TABLE BORDER=1 CELLPADDING=3>                                
+<TR><TD COLSPAN=2 ALIGN=CENTER><EM>輸入參數</EM></TD></TR>   
+<TR>                                                          
+        <TD><b>付款人EMail帳號(多組帳號請用「,」分隔)</b></TD>                                 
+        <TD><INPUT TYPE="TEXT" NAME="email" SIZE=100></TD>  
+</TR>
+<TR>                                                          
+        <TD><b>收款名稱</b></TD>                                 
+        <TD><INPUT TYPE="TEXT" NAME="orderName" SIZE=40></TD>  
+</TR>
+<TR>                                                          
+        <TD><b>金額(請加上兩位作為小數，即金額為10元時，應輸入1000)</b></TD>                                 
+        <TD><INPUT TYPE="TEXT" NAME="amount" SIZE=20></TD>  
+</TR>
+<TR>                                                          
+        <TD>限定日期起始日(格式：yyyy/MM/dd；若無，請留空白)</TD>                                 
+        <TD><INPUT TYPE="TEXT" NAME="startDate" SIZE=20></TD>  
+</TR>
+<TR>                                                          
+        <TD>限定日期結束日(格式：yyyy/MM/dd；若無，請留空白)</TD>                                 
+        <TD><INPUT TYPE="TEXT" NAME="endDate" SIZE=20></TD>  
+</TR>
+<TR>                                                          
+        <TD>分期期數</TD>                                 
+        <TD><INPUT TYPE="TEXT" NAME="intallmentpay2" id="intallmentpay2" value="3,6,9,12,24" SIZE=20></TD>  
+</TR>
+<TR>                                                          
+        <TD>付款完成通知Email</TD>                                 
+        <TD><INPUT TYPE="TEXT" NAME="noticeMail" value="" SIZE=50></TD>  
+</TR>
+<TR>                                                          
+        <TD>付款完成通知UpdateURL</TD>                                 
+        <TD><INPUT TYPE="TEXT" NAME="updateURL" value="" SIZE=50></TD>  
+</TR>
+<TR>                                                          
+        <TD>備註</TD>                                 
+        <TD><INPUT TYPE="TEXT" NAME="orderdesc" value="memo test" SIZE=20></TD>  
+</TR>
+<TR>                                                          
+        <TD>手/自動請款 0:手動  1:自動</TD>                                 
+        <TD><INPUT TYPE="TEXT" NAME="depositflag" value="1" SIZE=1></TD>  
+</TR>
+<TR>                                                          
+        <TD><INPUT TYPE="SUBMIT" VALUE="執行"></TD>                                 
+        <TD><INPUT TYPE="RESET" VALUE="取消"></TD>  
+</TR>                                                       
+</TABLE>                                                         
+</FORM>
+</CENTER>
+</BODY>
+</HTML>

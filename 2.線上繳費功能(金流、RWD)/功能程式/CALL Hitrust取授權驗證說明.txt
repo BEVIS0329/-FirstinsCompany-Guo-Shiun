@@ -1,0 +1,43 @@
+1.IConfigManager conf = (IConfigManager) ManagerUtil.getConfigManager(servlet);
+先抓取Hitrust 的config設定檔，裡面有一些設定參數會用到(參考檔案裡的conf檔案)
+
+
+2.String depositFlag = conf.getConfig("hitrust.deposit"); // 自動請款標記
+  String queryFlag = conf.getConfig("hitrust.queryflag");//查詢標記
+
+取得剛剛抓的config設定檔裡面的參數
+
+
+3.B2CPayAuthSSL authSSL = new B2CPayAuthSSL();
+
+應是Hitrust提供的套件，用於CALL 他們的API   有先安裝他們的toolkit所以可以使用
+
+
+注意事項
+
+取授權有新的商店代號時
+
+除了更換商店代號之外
+
+還是要在C碟的hitrust資料夾加入金鑰才行，有金鑰才能CALL HITRUST API(才能使用他們的套件)
+如
+80523.DER	PUB.DER   檔案
+
+以及要在特定位置目錄新增一個80523的設定檔(conf檔案)，對應商店代號
+javaSource -> com
+
+-----------------------------------
+
+Hitrust 提供 toolkit.jar 我們才能CALL hitrust API
+
+增加金鑰及設定檔    80523.DER	PUB.DER  金鑰放在指定目錄
+	            80523.conf(對應商店代號)  HiServer.conf(設定CALL HITRUST的URL)  為設定檔  
+
+
+
+
+PS：因Hitrust只提供正式環境的商店代號，因此測試時要先把Hiserver.conf的環境都改為正式才能測試成功，卡號也要用正是卡號
+    待測試成功之後在將Hiserver.conf復原(正式CALL正式，測試CALL測試)，測試機後台系統參數也設回60214，只有正式機後台才是設為真正的80523
+    
+    ****  測試機上測試時要直接進測試機修改Hiserver.conf  ****
+

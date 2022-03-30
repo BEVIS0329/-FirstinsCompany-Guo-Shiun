@@ -1,0 +1,37 @@
+JSTL 筆記
+
+加先在JSP頁面上添加
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+
+各種JSTL說明：
+
+<c:if test="${fn:length(datalist) != 0}">  //fn:length取得內容長度
+
+<c:forEach items="${datalist}" var="data" varStatus="varsts">  //var 去跑 items裡面的內容  varStatus目前迴圈的變量1.2.3.4....
+
+<c:out value="${varsts.index}"/> //目前迴圈的執行數
+
+<c:out value='${data.BC301}'/> //可以透過var(MAP)取KEY得到VALUE
+
+<c:out value='${datalist[varsts.index-1].BC306}'/>  //也可用items(LIST)的index取值
+
+
+//類似JAVA IF寫法
+<c:choose>
+	<c:when test="${detail.codedesc eq '是否涉及公平待客九大原則'}">
+		<input type="checkbox" name="lpt05" id="lpt05<c:out value="${detail.lpt04}"/>y" value="Y" <c:if test="${detail.lpt05 eq 'Y' && detail.lpt05 ne null}">checked</c:if> onclick="clicklptnew05('lpt05<c:out value="${detail.lpt04}"/>n',15,'${detail.lma01}','${detail.lpd02}','${detail.lma07}','${detail.lpt04}');"/>是
+	</c:when>
+	<c:otherwise>
+		<input type="checkbox" name="lpt05" id="lpt05<c:out value="${detail.lpt04}"/>y" value="Y" <c:if test="${detail.lpt05 eq 'Y' && detail.lpt05 ne null}">checked</c:if> onclick="clicklpt05('lpt05<c:out value="${detail.lpt04}"/>n');"/>是
+	</c:otherwise>
+</c:choose>
+
+
+eq 等於
+ne 不等於
+ge 大於等於
+le 小於等於
+gt 大於
+lt 小於
