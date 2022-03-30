@@ -1,0 +1,86 @@
+web service分為server端和client端
+
+server端提供方法讓別人CALL(signgetdata.java即是)，傳回String，但其為XML格式(拆解參考getXmlDataForInsert方法)************
+
+client端要call server端的方法，必須先有web service server端的URL或者WSDL檔(XML)
+
+1.在JAVA EE 的專案 NEW
+2.其他 ->web service -> web service client ->service definition選web service server端的URL或者WSDL檔(XML) ->finish
+3.接著就會在web service server端所指定的位址(XML中會寫到~關鍵字：targetNamespace="http://ws.kyc.com" 實際上即是server端那隻java的package)
+產生相關檔案EX：proxy，之後便可以使用該方法
+4.在程式裡只要new proxy物件，便可以使用該server端的方法
+
+產生XML格式的String回傳可參考getuserid()
+
+測試CALL web service 可用SOAPUI來做 https://www.soapui.org/downloads/soapui/   *****************
+
+SOAPUI若需要傳XML格式的參數，用以下方式
+
+<![CDATA[<ROOT><Acc><AccID>110091013CA9002</AccID><AccID>110091013CA9003</AccID><AccID>110091013CA9004</AccID></Acc></ROOT>]]>
+
+也就是： <![CDATA[        放XML格式的地方               ]]>
+
+----------------------------------------------------------------------------
+回傳方法
+
+1.Document doc = DocumentHelper.createDocument();//應該是生成整個XML格式的功能
+
+EX：預計要產生這樣，所以先生成一個空的XML的概念
+<ROOT>
+<name>陳慶州</name>
+<mail>null</mail>
+<unit>0005</unit>
+<endday>0</endday>
+</ROOT>
+
+
+2.Element root = doc.addElement("ROOT");//產生ROOT元素
+
+EX：空白的XML產生如下
+<ROOT>
+</ROOT>
+
+3.Element ret1 = root.addElement("name");//在ROOT元素底下在產生name元素
+
+<ROOT>
+<name></name>
+</ROOT>
+
+4.ret1.setText(String.valueOf(map.get("M302")));//設定name元素裡的值
+
+<ROOT>
+<name>陳慶州</name>
+</ROOT>
+
+--------------------------------------------------------------------------------
+
+拆解方法(假設拆解：String xmlString)
+
+1.
+SAXReader reader = new SAXReader(false);
+Document doc = reader.read(new ByteArrayInputStream(xmlString.getBytes("utf-8")));//先用SAXReader 讀取為DOC
+
+2.List list = doc.selectNodes("//ROOT/Acc");//選擇到ACC節點
+
+假設你傳入的值為<ROOT><Acc><AccID>110091013CA9010</AccID><AccID>110091013CA9011</AccID><AccID>110091013CA9012</AccID></Acc></ROOT>
+他會抓出你ACC節點有幾個，放入LIST內
+
+可以看成LIST長這樣：list[0] -> ACC ， list[0][0] ->AccID(10的這個)  list[0][1] -> AccID(11的這個) list[0][2] -> AccID(12的這個)
+
+
+3.因此會需要兩個迴圈來跑
+
+3.1 for (int i = 0; i < list.size(); i++)//用來跑有幾個ACC節點
+
+    3.1.1 Element element = (Element) list.get(i);//element 即是第一個ACC節點....第二個ACC節點.....
+
+3.2 for (Iterator j = element.elementIterator(); j.hasNext();)//用來跑該ACC節點內裡面所有的元素，以此範例，會跑該ACC節點內的三個AccID
+
+    3.2.1 Element element2 = (Element) j.next();//j會遍歷該ACC節點內的所有元素，因此element2即是AccID元素
+    3.2.2 accno = element2.getTextTrim();//getTextTrim()取得AccID內的值，EX：110091013CA9011
+    3.2.3 e.put(element2.getName(), accno);//getName()取得元素名稱，就是AccID啦
+	
+         e.put()執行完後長這樣{AccID:110091013CA9010}
+
+
+
